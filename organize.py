@@ -16,12 +16,9 @@ year_keys=[]
 month_list=['01','02','03','04','05','06','07','08','09','10','11','12','all']
 data_dict={}
 
-#item below is placeholder for ebutterfly function location
-	#hello2 = ebutterfly_taxon_associate('eb_butterflies.csv')
 
-
-
-def get_data(filename):
+#Complete
+def get_iNat(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
 		data_keys=data_dict.keys()
@@ -85,9 +82,73 @@ def get_data(filename):
 				
 
 			
+#IN PROGRESS
+def get_eButterfly(filename):
+	with open(filename,  encoding='utf8') as csvfile:
+		reader = csv.DictReader(csvfile)
+		data_keys=data_dict.keys()
+		for row in reader:
+			if row['latin_name'] not in data_keys:
+				data_dict[row['latin_name']]= {}				
+				'''
+				organizing dictionary input into format {{year}, {month}, [lat, long]}
+				'''
+				
+				if len(row['year'])==4:
+					data_dict[row['latin_name']][row['year']]={}
+					data_dict[row['latin_name']][row['year']]['01']=[]
+					data_dict[row['latin_name']][row['year']]['02']=[]
+					data_dict[row['latin_name']][row['year']]['03']=[]
+					data_dict[row['latin_name']][row['year']]['04']=[]
+					data_dict[row['latin_name']][row['year']]['05']=[]
+					data_dict[row['latin_name']][row['year']]['06']=[]
+					data_dict[row['latin_name']][row['year']]['07']=[]
+					data_dict[row['latin_name']][row['year']]['08']=[]
+					data_dict[row['latin_name']][row['year']]['09']=[]
+					data_dict[row['latin_name']][row['year']]['10']=[]
+					data_dict[row['latin_name']][row['year']]['11']=[]
+					data_dict[row['latin_name']][row['year']]['12']=[]
+					
+					
+					#format is Latitude, longitude
+					data_dict[row['latin_name']][row['year']][row['month']].append([row['latitude'],row['longitude']])
+					
+					
+			else :	
+				
+				year_key = data_dict[row['latin_name']].keys()
+				if row['year'] not in year_key:
+					year_keys.append([row['year']])
+					data_dict[row['latin_name']][row['year']]={}
+					data_dict[row['latin_name']][row['year']]['01']=[]
+					data_dict[row['latin_name']][row['year']]['02']=[]
+					data_dict[row['latin_name']][row['year']]['03']=[]
+					data_dict[row['latin_name']][row['year']]['04']=[]
+					data_dict[row['latin_name']][row['year']]['05']=[]
+					data_dict[row['latin_name']][row['year']]['06']=[]
+					data_dict[row['latin_name']][row['year']]['07']=[]
+					data_dict[row['latin_name']][row['year']]['08']=[]
+					data_dict[row['latin_name']][row['year']]['09']=[]
+					data_dict[row['latin_name']][row['year']]['10']=[]
+					data_dict[row['latin_name']][row['year']]['11']=[]
+					data_dict[row['latin_name']][row['year']]['12']=[]
+					'''
+					Checking that entries have Lat/long coords, not transcribing entries if they do not.
+					'''
+					if len(row['latitude']) > 1 or len(row['longitude']) > 1:
+						data_dict[row['latin_name']][row['year']][row['month']].append([row['latitude'],row['longitude']])
+
+				else:
+					if len(row['latitude']) > 1 or len(row['longitude']) > 1:
+
+						data_dict[row['latin_name']][row['year']][row['month']].append([row['latitude'],row['longitude']])
+			
+
 
 #Runs get_data function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
-get_data('observations.csv')
+get_iNat('observations.csv')
+
+####get_eButterfly('eb_butterflies.csv')
 
 print('Processing Complete, beginning file creation')
 
@@ -119,7 +180,7 @@ print('data_for_sdm.txt created successfully')
 Writing data in format needed to new CSV file for easier user viewing
 '''
 #Format of CSV is scientificName, year, month, latitude, longitude
-
+#Complete
 with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 	csvwriter = csv.writer(csv_file, delimiter=',' )
 
@@ -131,6 +192,7 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 				for coords in data_dict[id][year][month]:
 					csvwriter.writerow([id,year, month,coords[0], coords[-1]])
 
+open('data_for_sdm.csv', 'w', newline='')
 print('data_for_sdm.csv created successfully. This is useful for visualizing the data in a clean excel form')
 
 

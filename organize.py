@@ -18,7 +18,6 @@ data_dict={}
 
 
 #Complete
-print('Beginning cleaning of iNaturalist Data')
 def get_iNat(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -84,8 +83,6 @@ def get_iNat(filename):
 
 			
 #IN PROGRESS
-print('Cleaning of iNaturalist Data Complete')
-print('Beginning cleaning of eButterfly Data')
 def get_eButterfly(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -158,10 +155,11 @@ def get_eButterfly(filename):
 
 #Runs get_data function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
 
-
+print('Beginning cleaning of iNaturalist Data')
 get_iNat('observations.csv')
+print('Cleaning of iNaturalist Data Complete')
+print('Beginning cleaning of eButterfly Data')
 get_eButterfly('eb_butterflies_new.csv')
-
 print('Processing Complete, beginning file creation and integration of data sources')
 
 ''' Writing data in format needed to new TXT file for SDM format

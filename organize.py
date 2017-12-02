@@ -18,6 +18,7 @@ data_dict={}
 
 
 #Complete
+print('Beginning cleaning of iNaturalist Data')
 def get_iNat(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -82,7 +83,9 @@ def get_iNat(filename):
 				
 
 			
-#Complete
+#IN PROGRESS
+print('Cleaning of iNaturalist Data Complete')
+print('Beginning cleaning of eButterfly Data')
 def get_eButterfly(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -109,7 +112,7 @@ def get_eButterfly(filename):
 					data_dict[row['latin_name']][row['year_created']]['10']=[]
 					data_dict[row['latin_name']][row['year_created']]['11']=[]
 					data_dict[row['latin_name']][row['year_created']]['12']=[]
-					#cleaning month formatting issue vvv
+					#cleaning month formatting vvv
 					if len(row['month_created']) == 1:
 						row['month_created']='0' + row['month_created']
 					#format is Latitude, longitude
@@ -134,7 +137,7 @@ def get_eButterfly(filename):
 					data_dict[row['latin_name']][row['year_created']]['10']=[]
 					data_dict[row['latin_name']][row['year_created']]['11']=[]
 					data_dict[row['latin_name']][row['year_created']]['12']=[]
-					#cleaning month formatting issue vvv
+					#cleaning month formatting vvv
 					if len(row['month_created']) == 1:
 						row['month_created']='0' + row['month_created']
 					'''
@@ -159,7 +162,7 @@ def get_eButterfly(filename):
 get_iNat('observations.csv')
 get_eButterfly('eb_butterflies_new.csv')
 
-print('Processing Complete, beginning file creation')
+print('Processing Complete, beginning file creation and integration of data sources')
 
 ''' Writing data in format needed to new TXT file for SDM format
 

@@ -6,7 +6,7 @@ Purpose of script:
 	This Python script is used to clean and organize data from iNaturalist Gbif dump 
 	and eButterfly Database dump and integrate it into a singular file in a format needed
 	to run the R Species Distribution Model program. For additional information about specific 
-	functionalityof this code, please see additional comments included in the code below.
+	functionality of this code, please see additional comments included in the code below.
 '''
 
 import csv
@@ -88,69 +88,79 @@ def get_eButterfly(filename):
 		reader = csv.DictReader(csvfile)
 		data_keys=data_dict.keys()
 		for row in reader:
+		#row['ColumnID'] = total_rows['ColumnID'].astype(str)
 			if row['latin_name'] not in data_keys:
 				data_dict[row['latin_name']]= {}				
 				'''
 				organizing dictionary input into format {{year}, {month}, [lat, long]}
 				'''
 				
-				if len(row['year'])==4:
-					data_dict[row['latin_name']][row['year']]={}
-					data_dict[row['latin_name']][row['year']]['01']=[]
-					data_dict[row['latin_name']][row['year']]['02']=[]
-					data_dict[row['latin_name']][row['year']]['03']=[]
-					data_dict[row['latin_name']][row['year']]['04']=[]
-					data_dict[row['latin_name']][row['year']]['05']=[]
-					data_dict[row['latin_name']][row['year']]['06']=[]
-					data_dict[row['latin_name']][row['year']]['07']=[]
-					data_dict[row['latin_name']][row['year']]['08']=[]
-					data_dict[row['latin_name']][row['year']]['09']=[]
-					data_dict[row['latin_name']][row['year']]['10']=[]
-					data_dict[row['latin_name']][row['year']]['11']=[]
-					data_dict[row['latin_name']][row['year']]['12']=[]
-					
-					
+				if len(row['year_created'])==4:
+					data_dict[row['latin_name']][row['year_created']]={}
+					data_dict[row['latin_name']][row['year_created']]['01']=[]
+					data_dict[row['latin_name']][row['year_created']]['02']=[]
+					data_dict[row['latin_name']][row['year_created']]['03']=[]
+					data_dict[row['latin_name']][row['year_created']]['04']=[]
+					data_dict[row['latin_name']][row['year_created']]['05']=[]
+					data_dict[row['latin_name']][row['year_created']]['06']=[]
+					data_dict[row['latin_name']][row['year_created']]['07']=[]
+					data_dict[row['latin_name']][row['year_created']]['08']=[]
+					data_dict[row['latin_name']][row['year_created']]['09']=[]
+					data_dict[row['latin_name']][row['year_created']]['10']=[]
+					data_dict[row['latin_name']][row['year_created']]['11']=[]
+					data_dict[row['latin_name']][row['year_created']]['12']=[]
+					#cleaning month formatting vvv
+					if len(row['month_created']) == 1:
+						row['month_created']='0' + row['month_created']
 					#format is Latitude, longitude
-					data_dict[row['latin_name']][row['year']][row['month']].append([row['latitude'],row['longitude']])
+					data_dict[row['latin_name']][row['year_created']][row['month_created']].append([row['latitude'],row['longitude']])
 					
 					
 			else :	
 				
 				year_key = data_dict[row['latin_name']].keys()
-				if row['year'] not in year_key:
-					year_keys.append([row['year']])
-					data_dict[row['latin_name']][row['year']]={}
-					data_dict[row['latin_name']][row['year']]['01']=[]
-					data_dict[row['latin_name']][row['year']]['02']=[]
-					data_dict[row['latin_name']][row['year']]['03']=[]
-					data_dict[row['latin_name']][row['year']]['04']=[]
-					data_dict[row['latin_name']][row['year']]['05']=[]
-					data_dict[row['latin_name']][row['year']]['06']=[]
-					data_dict[row['latin_name']][row['year']]['07']=[]
-					data_dict[row['latin_name']][row['year']]['08']=[]
-					data_dict[row['latin_name']][row['year']]['09']=[]
-					data_dict[row['latin_name']][row['year']]['10']=[]
-					data_dict[row['latin_name']][row['year']]['11']=[]
-					data_dict[row['latin_name']][row['year']]['12']=[]
+				if row['year_created'] not in year_key:
+					year_keys.append([row['year_created']])
+					data_dict[row['latin_name']][row['year_created']]={}
+					data_dict[row['latin_name']][row['year_created']]['01']=[]
+					data_dict[row['latin_name']][row['year_created']]['02']=[]
+					data_dict[row['latin_name']][row['year_created']]['03']=[]
+					data_dict[row['latin_name']][row['year_created']]['04']=[]
+					data_dict[row['latin_name']][row['year_created']]['05']=[]
+					data_dict[row['latin_name']][row['year_created']]['06']=[]
+					data_dict[row['latin_name']][row['year_created']]['07']=[]
+					data_dict[row['latin_name']][row['year_created']]['08']=[]
+					data_dict[row['latin_name']][row['year_created']]['09']=[]
+					data_dict[row['latin_name']][row['year_created']]['10']=[]
+					data_dict[row['latin_name']][row['year_created']]['11']=[]
+					data_dict[row['latin_name']][row['year_created']]['12']=[]
+					#cleaning month formatting vvv
+					if len(row['month_created']) == 1:
+						row['month_created']='0' + row['month_created']
 					'''
 					Checking that entries have Lat/long coords, not transcribing entries if they do not.
 					'''
+						
 					if len(row['latitude']) > 1 or len(row['longitude']) > 1:
-						data_dict[row['latin_name']][row['year']][row['month']].append([row['latitude'],row['longitude']])
+						data_dict[row['latin_name']][row['year_created']][row['month_created']].append([row['latitude'],row['longitude']])
 
 				else:
+					if len(row['month_created']) == 1:
+						row['month_created']='0' + row['month_created']
 					if len(row['latitude']) > 1 or len(row['longitude']) > 1:
 
-						data_dict[row['latin_name']][row['year']][row['month']].append([row['latitude'],row['longitude']])
+						data_dict[row['latin_name']][row['year_created']][row['month_created']].append([row['latitude'],row['longitude']])
 			
 
 
 #Runs get_data function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
+
+print('Beginning cleaning of iNaturalist Data')
 get_iNat('observations.csv')
-
-####get_eButterfly('eb_butterflies.csv')
-
-print('Processing Complete, beginning file creation')
+print('Cleaning of iNaturalist Data Complete')
+print('Beginning cleaning of eButterfly Data')
+get_eButterfly('eb_butterflies_new.csv')
+print('Processing Complete, beginning file creation and integration of data sources')
 
 ''' Writing data in format needed to new TXT file for SDM format
 
@@ -192,7 +202,7 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 				for coords in data_dict[id][year][month]:
 					csvwriter.writerow([id,year, month,coords[0], coords[-1]])
 
-open('data_for_sdm.csv', 'w', newline='')
+
 print('data_for_sdm.csv created successfully. This is useful for visualizing the data in a clean excel form')
 
 

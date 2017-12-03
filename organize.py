@@ -8,16 +8,27 @@ Purpose of script:
 	to run the R Species Distribution Model program. For additional information about specific 
 	functionality of this code, please see additional comments included in the code below.
 '''
-
+#import csv utilizes the Python library that specializes in CSV manipulation and file writing.
 import csv
+'''
+Global Variables:
+	This predetermines items that will been to be reference throughout the different functions
+	without having to explicitely return them from each function.
+'''
 
-#Global Variables
 year_keys=[]
 month_list=['01','02','03','04','05','06','07','08','09','10','11','12','all']
 data_dict={}
 
 
-#Complete
+'''
+Function get_iNat:
+	This function opens and reads data from iNaturalist, in the form of the Gbif data dump. Once 
+	open, it traverses the file, creating a dictionary association of each entry by scientificName,
+	year, month, latitude, and longitude. While accomplishing this, it also does not transcribe
+	any data that is not marked as 'Research Grade' or any data that is missing information in the areas
+	needed. This function returns None, but rather fills the data_dict global variable.
+'''
 def get_iNat(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -82,7 +93,15 @@ def get_iNat(filename):
 				
 
 			
-#IN PROGRESS
+'''
+Function get_eButterfly:
+	This function opens and reads data from a csv file created from the eButterfly sql data dump 
+	(this datadump is partially cleaned and extracted via a seperate script). Once open, it traverses 
+	the file, creating a dictionary association of each entry by scientificName 
+	(in this files case, it is labeled latin_name), year, month, latitude, and longitude. While 
+	accomplishing this, it also does not transcribe any data that is missing information in the areas
+	needed. This function returns None, but rather fills/augments the data_dict global variable.
+'''
 def get_eButterfly(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -153,12 +172,12 @@ def get_eButterfly(filename):
 			
 
 
-#Runs get_data function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
-
+#Runs get_iNat function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
 print('Beginning cleaning of iNaturalist Data')
 get_iNat('observations.csv')
 print('Cleaning of iNaturalist Data Complete')
 print('Beginning cleaning of eButterfly Data')
+#Runs get_eButterfly function and organizes/cleans eb_butterflies_new.csv file from the eButterfly Datadump.
 get_eButterfly('eb_butterflies_new.csv')
 print('Processing Complete, beginning file creation and integration of data sources')
 
@@ -187,10 +206,12 @@ print('data_for_sdm.txt created successfully')
 
 
 '''					
-Writing data in format needed to new CSV file for easier user viewing
+This portion of code takes the filled global variable data_dict and creates a
+	csv file which will be used by the Species Distribution Model (SDM) as well
+	as allowing easier user viewing if further or seperate analysis is needed on 
+	the combined, cleaned datasets.
 '''
 #Format of CSV is scientificName, year, month, latitude, longitude
-#Complete
 with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 	csvwriter = csv.writer(csv_file, delimiter=',' )
 

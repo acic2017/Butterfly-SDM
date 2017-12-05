@@ -28,13 +28,20 @@ Function get_iNat:
 	year, month, latitude, and longitude. While accomplishing this, it also does not transcribe
 	any data that is not marked as 'Research Grade' or any data that is missing information in the areas
 	needed. This function returns None, but rather fills the data_dict global variable.
+
+	This code is optimized to pull out ONLY butterfly and moth observations from this file, but having a
+	requirement of the 'order' in the dataset to be Lepidoptera. 
+	
+	If you would prefer to pull ALL observations for the purpose of cleaning and analysis. Please remove
+	the portion (row['order'] == 'Lepidoptera' and) from line 44 and 69.
+	
 '''
 def get_iNat(filename):
 	with open(filename,  encoding='utf8') as csvfile:
 		reader = csv.DictReader(csvfile)
 		data_keys=data_dict.keys()
 		for row in reader:
-			if row['scientificName'] not in data_keys and row['datasetName'] == 'iNaturalist research-grade observations':
+			if row['order'] == 'Lepidoptera' and row['scientificName'] not in data_keys and row['datasetName'] == 'iNaturalist research-grade observations':
 				data_dict[row['scientificName']]= {}				
 				'''
 				organizing dictionary input into format {{year}, {month}, [lat, long]}
@@ -59,7 +66,7 @@ def get_iNat(filename):
 					data_dict[row['scientificName']][row['eventDate'][0:4]][row['eventDate'][5:7]].append([row['decimalLatitude'],row['decimalLongitude']])
 					
 					
-			elif row['datasetName'] == 'iNaturalist research-grade observations':	
+			elif row['order'] == 'Lepidoptera' and row['datasetName'] == 'iNaturalist research-grade observations':	
 				'''
 				This gets rid of all non research grade observations
 				'''	
@@ -227,12 +234,17 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 print('data_for_sdm.csv created successfully. This is useful for visualizing the data in a clean excel form')
 
 
-#In Progress
+#Done
 '''
 This portion of code seperates each Species into their own files, containing all
 of the data for that species in the format scientificName, year, month, latitude, 
 longitude. When this code finishes running there will be a singular csv for each 
-and every species.
+and every species. This code has a threshold requirement of 20 total observations 
+for the species to be considered, and written. 
+
+To have all species considered with no threshold, please comment out '#' 
+"if len(data_dict[nameset]) + len(data_dict[year]) + len(data_dict[month])) >= 20:"
+in line 268 and unindent line 269 by 1 tab. 
 '''
 
 print('Beginning species specific csv file creation.')
@@ -253,7 +265,8 @@ for i in range(len(species)):
 		for year in data_dict[nameset]:
 			for month in data_dict[nameset][year]:
 				for lat in data_dict[nameset][year][month]:
-					csvwriter.writerow([year, month,coords[0], coords[-1]])
+					if len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month]) >= 20:
+						csvwriter.writerow([year, month,coords[0], coords[-1]])
 
 
 print('Individual species csv file creation complete.')

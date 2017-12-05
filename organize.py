@@ -223,10 +223,37 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 				for coords in data_dict[id][year][month]:
 					csvwriter.writerow([id,year, month,coords[0], coords[-1]])
 
-
+	
 print('data_for_sdm.csv created successfully. This is useful for visualizing the data in a clean excel form')
 
 
+#In Progress
+'''
+This portion of code seperates each Species into their own files, containing all
+of the data for that species in the format scientificName, year, month, latitude, 
+longitude. When this code finishes running there will be a singular csv for each 
+and every species.
+'''
+
+print('Beginning species specific csv file creation.')
+species=list(data_dict.keys())
+for i in range(len(species)):
+	nameset=species[i]
+	naming=nameset.split()
+	for j in range(len(naming)):
+		naming[j]=naming[j].strip('"')
+		for char in naming[j]:
+			if char in " ?.!/;:":
+				naming[j] = naming[j].replace(char,'')
+	join_name='_'.join(naming)
+	filename = str(join_name + '.csv')
+	with open(filename,'w') as csv_file:
+		csvwriter = csv.writer(csv_file, delimiter=',' )
+		csvwriter.writerow(['year','month','latitude','longitude'])
+		for year in data_dict[nameset]:
+			for month in data_dict[nameset][year]:
+				for lat in data_dict[nameset][year][month]:
+					csvwriter.writerow([year, month,coords[0], coords[-1]])
 
 
-
+print('Individual species csv file creation complete.')

@@ -234,7 +234,7 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 print('data_for_sdm.csv created successfully. This is useful for visualizing the data in a clean excel form')
 
 
-#Done
+
 '''
 This portion of code seperates each Species into their own files, containing all
 of the data for that species in the format scientificName, year, month, latitude, 
@@ -265,8 +265,9 @@ for i in range(len(species)):
 		for year in data_dict[nameset]:
 			for month in data_dict[nameset][year]:
 				for lat in data_dict[nameset][year][month]:
-					if len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month]) >= 20:
+					observations_threshold=len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month])
+					while observations_threshold >= 20:
 						csvwriter.writerow([year, month,coords[0], coords[-1]])
-
+						observations_threshold=0
 
 print('Individual species csv file creation complete.')

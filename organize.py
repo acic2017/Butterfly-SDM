@@ -264,7 +264,7 @@ for i in range(len(species)):
 		csvwriter.writerow(['year','month','latitude','longitude'])
 		for year in data_dict[nameset]:
 			for month in data_dict[nameset][year]:
-				for lat in data_dict[nameset][year][month]:
+				for coords in data_dict[nameset][year][month]:
 					observations_threshold=0
 					observations_threshold=len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month])
 					if observations_threshold >= 20:

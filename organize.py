@@ -244,8 +244,7 @@ and every species. This code has a threshold requirement of 20 total observation
 for the species to be considered, and written. 
 
 To have all species considered with no threshold, please comment out '#' 
-"if len(data_dict[nameset]) + len(data_dict[year]) + len(data_dict[month])) >= 20:"
-in line 268 and unindent line 269 by 1 tab. 
+lines 268, 269, 270, 272 and unindent line 271 by 1 tab. 
 '''
 
 print('Beginning species specific csv file creation.')

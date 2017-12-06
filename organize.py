@@ -10,6 +10,7 @@ Purpose of script:
 '''
 #import csv utilizes the Python library that specializes in CSV manipulation and file writing.
 import csv
+import string
 '''
 Global Variables:
 	This predetermines items that will been to be reference throughout the different functions
@@ -234,7 +235,7 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 print('data_for_sdm.csv created successfully. This is useful for visualizing the data in a clean excel form')
 
 
-#Done
+
 '''
 This portion of code seperates each Species into their own files, containing all
 of the data for that species in the format scientificName, year, month, latitude, 
@@ -243,8 +244,7 @@ and every species. This code has a threshold requirement of 20 total observation
 for the species to be considered, and written. 
 
 To have all species considered with no threshold, please comment out '#' 
-"if len(data_dict[nameset]) + len(data_dict[year]) + len(data_dict[month])) >= 20:"
-in line 268 and unindent line 269 by 1 tab. 
+lines 268, 269, 270, 272 and unindent line 271 by 1 tab. 
 '''
 
 print('Beginning species specific csv file creation.')
@@ -259,14 +259,16 @@ for i in range(len(species)):
 				naming[j] = naming[j].replace(char,'')
 	join_name='_'.join(naming)
 	filename = str(join_name + '.csv')
-	with open(filename,'w') as csv_file:
+	with open(filename,'w', encoding='utf-8') as csv_file:
 		csvwriter = csv.writer(csv_file, delimiter=',' )
-		csvwriter.writerow(['year','month','latitude','longitude'])
+		csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
 		for year in data_dict[nameset]:
 			for month in data_dict[nameset][year]:
-				for lat in data_dict[nameset][year][month]:
-					if len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month]) >= 20:
-						csvwriter.writerow([year, month,coords[0], coords[-1]])
-
+				for coords in data_dict[nameset][year][month]:
+					observations_threshold=0
+					observations_threshold=len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month])
+					if observations_threshold >= 20:
+						csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
+						observations_threshold=0
 
 print('Individual species csv file creation complete.')

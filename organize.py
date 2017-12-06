@@ -10,6 +10,7 @@ Purpose of script:
 '''
 #import csv utilizes the Python library that specializes in CSV manipulation and file writing.
 import csv
+import string
 '''
 Global Variables:
 	This predetermines items that will been to be reference throughout the different functions
@@ -259,7 +260,7 @@ for i in range(len(species)):
 				naming[j] = naming[j].replace(char,'')
 	join_name='_'.join(naming)
 	filename = str(join_name + '.csv')
-	with open(filename,'w') as csv_file:
+	with open(filename,'w', encoding='utf-8') as csv_file:
 		csvwriter = csv.writer(csv_file, delimiter=',' )
 		csvwriter.writerow(['year','month','latitude','longitude'])
 		for year in data_dict[nameset]:

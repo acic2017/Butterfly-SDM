@@ -262,14 +262,14 @@ for i in range(len(species)):
 	filename = str(join_name + '.csv')
 	with open(filename,'w', encoding='utf-8') as csv_file:
 		csvwriter = csv.writer(csv_file, delimiter=',' )
-		csvwriter.writerow(['year','month','latitude','longitude'])
+		csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
 		for year in data_dict[nameset]:
 			for month in data_dict[nameset][year]:
 				for coords in data_dict[nameset][year][month]:
 					observations_threshold=0
 					observations_threshold=len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month])
 					if observations_threshold >= 20:
-						csvwriter.writerow([year, month,coords[0], coords[-1]])
+						csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 						observations_threshold=0
 
 print('Individual species csv file creation complete.')

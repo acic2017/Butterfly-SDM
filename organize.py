@@ -336,11 +336,8 @@ for i in range(len(species)):
 											
 										if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 											if float(coords[-1])>= -165 and float(coords[-1]) <= -52:
-												observations_threshold=0
-												observations_threshold=len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month])
-												if observations_threshold >= 5:
-													csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-													observations_threshold=0
+												csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
+												
 		file_output =filename + '\\' + filename +'_jan.csv'
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:

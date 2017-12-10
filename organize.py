@@ -370,7 +370,7 @@ for i in range(len(species)):
 					if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 						if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 							observations_threshold+=1
-					if observations_threshold >= 5:
+					if observations_threshold >= 13:
 						if not os.path.exists(filename) :
 							os.makedirs(filename)
 						file_output =os.path.join(filename , filename +'_all.csv')
@@ -391,7 +391,7 @@ for i in range(len(species)):
 											if float(coords[-1])>= -165 and float(coords[-1]) <= -52:
 												observations_threshold=0
 												observations_threshold=len(data_dict[nameset]) + len(data_dict[nameset][year]) + len(data_dict[nameset][year][month])
-												if observations_threshold >= 5:
+												if observations_threshold >= 13:
 													csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 													observations_threshold=0
 		file_output =filename + '\\' + filename +'_jan.csv'
@@ -409,7 +409,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -442,7 +442,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -475,7 +475,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -508,7 +508,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -541,7 +541,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -574,7 +574,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -607,7 +607,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -640,7 +640,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -673,7 +673,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -706,7 +706,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -739,7 +739,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -772,7 +772,7 @@ for i in range(len(species)):
 						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
 								observations_threshold+=1
-						if observations_threshold >= 5:
+						if observations_threshold >= 13:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
 								csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])

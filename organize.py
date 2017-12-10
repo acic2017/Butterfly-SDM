@@ -37,7 +37,7 @@ Function get_iNat:
 	requirement of the 'order' in the dataset to be Lepidoptera. 
 	
 	If you would prefer to pull ALL observations for the purpose of cleaning and analysis. Please remove
-	the portion (row['order'] == 'Lepidoptera' and) from line 44 and 69.
+	the portion (row['order'] == 'Lepidoptera' and) from line 48 and 73.
 	
 '''
 def get_iNat(filename):
@@ -271,6 +271,8 @@ with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
 			for month in data_dict[id][year]:
 				for coords in data_dict[id][year][month]:
 					for m in range(len(coords)):
+						#The below code cleans common errors noticed for the latitude/longitude entries.
+						#This includes ensuring a singular format after cleaning.
 						coords[m]=coords[m].strip()
 						coords[m]=coords[m].replace('N' ,'')
 						coords[m]=coords[m].replace('+' ,'')
@@ -319,11 +321,11 @@ print('data_for_sdm.csv created successfully. This is useful for visualizing the
 This portion of code seperates each Species into their own files, containing all
 of the data for that species in the format scientificName, year, month, latitude, 
 longitude. When this code finishes running there will be a singular csv for each 
-and every species. This code has a threshold requirement of 5 total observations 
+and every species. This code has a threshold requirement of 13 total observations 
 for the species to be considered, have a folder created and a csv written. This 
 portion also write individual files for each species for each month, containing 
 all observations for that species for all years during that month, if the observations 
-for that month are above the threshold of 5. All written files will be contained 
+for that month are above the threshold of 13. All written files will be contained 
 within a folder named the species scientificName.
 
 Update** This code now includes a filter, so that only species and/or observations from
@@ -336,9 +338,11 @@ boxes in the Run_SDM.R script as to now cause errors for points out of bounds.
 print('Beginning species specific csv file creation.')
 species=list(data_dict.keys())
 with open('species_list.csv','w', encoding='utf-8') as csv_file:
+	#Creates a species list, to show a total listing of all species
+	#in the combined dataset, prior to the observations_threshold
+	#or North American filter.
 	csvwriter_species = csv.writer( csv_file, delimiter=',' )
 	for each in species:
-		#print(each)
 		if len(each)<3 :
 			del each
 		else:
@@ -347,6 +351,8 @@ with open('species_list.csv','w', encoding='utf-8') as csv_file:
 for i in range(len(species)):
 	nameset=species[i]
 	naming=nameset.split()
+	#cleans Species Name and joins it by an '_' to prepare
+	#for folder/file creation.
 	for j in range(len(naming)):
 		naming[j]=naming[j].strip('"')
 		for char in naming[j]:

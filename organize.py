@@ -379,7 +379,33 @@ for i in range(len(species)):
 					if observations_threshold >= 13:
 						if not os.path.exists(filename) :
 							os.makedirs(filename)
-						file_output =os.path.join(filename , filename +'_all.csv')
+							file_output =os.path.join(filename , 'all')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'jan')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'feb')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'mar')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'apr')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'may')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'jun')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'jul')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'aug')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'sep')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'oct')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'nov')
+							os.makedirs(file_output)
+							file_output =os.path.join(filename , 'dec')
+							os.makedirs(file_output)
+						file_output =os.path.join(filename ,'all',  filename +'_all.csv')
 						with open(file_output,'w', encoding='utf-8') as csv_file:
 							csvwriter = csv.writer(csv_file, delimiter=',' )
 							csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -400,7 +426,7 @@ for i in range(len(species)):
 												if observations_threshold >= 13:
 													csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 													observations_threshold=0
-		file_output =filename + '\\' + filename +'_jan.csv'
+		file_output =filename + '\\' + 'jan\\' + filename +'_jan.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -433,7 +459,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 															
-		file_output =filename + '\\' + filename +'_feb.csv'
+		file_output =filename + '\\' + 'feb\\' +filename +'_feb.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -466,7 +492,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 														
-		file_output =filename + '\\' + filename +'_mar.csv'
+		file_output =filename + '\\' + 'mar\\' +filename +'_mar.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -499,7 +525,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 															
-		file_output =filename + '\\' + filename +'_apr.csv'
+		file_output =filename + '\\' + 'apr\\' +filename +'_apr.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -532,7 +558,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 															
-		file_output =filename + '\\' + filename +'_may.csv'
+		file_output =filename + '\\' + 'may\\' + filename +'_may.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -565,7 +591,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 															
-		file_output =filename + '\\' + filename +'_jun.csv'
+		file_output =filename + '\\' + 'jun\\' +filename +'_jun.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -598,7 +624,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 																
-		file_output =filename + '\\' + filename +'_jul.csv'
+		file_output =filename + '\\' + 'jul\\' +filename +'_jul.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -631,7 +657,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 															
-		file_output =filename + '\\' + filename +'_aug.csv'
+		file_output =filename + '\\' + 'aug\\' +filename +'_aug.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -664,7 +690,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 															
-		file_output =filename + '\\' + filename +'_sep.csv'
+		file_output =filename + '\\' + 'sep\\' +filename +'_sep.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -697,7 +723,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 																	
-		file_output =filename + '\\' + filename +'_oct.csv'
+		file_output =filename + '\\' + 'oct\\' +filename +'_oct.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -730,7 +756,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 																
-		file_output =filename + '\\' + filename +'_nov.csv'
+		file_output =filename + '\\' + 'nov\\' +filename +'_nov.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
@@ -763,7 +789,7 @@ for i in range(len(species)):
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
 																	
-		file_output =filename + '\\' + filename +'_dec.csv'
+		file_output =filename + '\\' + 'dec\\' +filename +'_dec.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:

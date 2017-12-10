@@ -9,6 +9,8 @@ Purpose of script:
 	functionality of this code, please see additional comments included in the code below.
 '''
 #import csv utilizes the Python library that specializes in CSV manipulation and file writing.
+#import os utilizes the Python library that specializes in functions such as directory creation.
+#import string utilizes the Python library that specializes in string manipulation.
 import csv
 import string
 import os
@@ -182,9 +184,9 @@ def get_eButterfly(filename):
 
 
 #Runs get_iNat function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
-#print('Beginning cleaning of iNaturalist Data')
-#get_iNat('observations.csv')
-#print('Cleaning of iNaturalist Data Complete')
+print('Beginning cleaning of iNaturalist Data')
+get_iNat('observations.csv')
+print('Cleaning of iNaturalist Data Complete')
 print('Beginning cleaning of eButterfly Data')
 #Runs get_eButterfly function and organizes/cleans eb_butterflies_new.csv file from the eButterfly Datadump.
 get_eButterfly('eb_butterflies_new.csv')
@@ -199,7 +201,7 @@ print('Processing Complete, beginning file creation and integration of data sour
 ***************************************************************************************************
 
 with open('data_for_sdm.txt','w', encoding='utf-8') as csv_file:
-	csvwriter = csv.writer(csv_file, delimiter=',')
+	csvwriter = csv.writer(csv_file, delimiter=',' )
 
 	csvwriter.writerow(['scientificName','year','month','latitude','longitude'])
 
@@ -207,8 +209,45 @@ with open('data_for_sdm.txt','w', encoding='utf-8') as csv_file:
 		for year in data_dict[id]:
 			for month in data_dict[id][year]:
 				for coords in data_dict[id][year][month]:
-					csvwriter.writerow([id,year, month,coords[0], coords[-1]])
+					for m in range(len(coords)):
+						coords[m]=coords[m].strip()
+						coords[m]=coords[m].replace('N' ,'')
+						coords[m]=coords[m].replace('+' ,'')
+						coords[m]=coords[m].replace(' ' ,'.',1)
+						coords[m]=coords[m].replace('\\' ,'')
+						coords[m]=coords[m].replace("'" ,'.')
+						coords[m]=coords[m].replace('"' ,'.')
+						coords[m]=coords[m].replace("′" ,'.')
+						coords[m]=coords[m].replace('″' ,'.')
+						coords[m]=coords[m].replace(';' ,'.')
+						coords[m]=coords[m].replace(',' ,'')
+						coords[m]=coords[m].replace('_' ,'')
+						coords[m]=coords[m].replace('>' ,'.')
+						coords[m]=coords[m].replace(':' ,'.')
+						if len(coords[m])>1:
+							coords[m]=coords[m].replace('°' ,'')
+							for n in range(len(coords[m])):
+								if coords[m][n].isalpha():
+									coords[m]=coords[m].replace(coords[m][n] ,' ')
+							
+							decimal_counter=0
+							for o in range(len(coords[m])):
+								if o <= len(coords[m]):
+									if coords[m][o]=='.':
+										decimal_counter+=1
+										if decimal_counter > 1:
+											coords[m][o]
+											coords[m]=coords[m][0:o]+coords[m][o+1:]+' '
+											decimal_counter-=1
 
+							for p in range(len(coords[m])):
+								if coords[m][p]=='-' and p!=0:
+										coords[m][p]
+										coords[m]=coords[m][0:p]+coords[m][p+1:]+' '
+
+							
+							coords[m]=coords[m].replace(' ' ,'')
+					csvwriter.writerow([id,year, month,coords[0], coords[-1]])
 					
 print('data_for_sdm.txt created successfully')
 '''
@@ -218,7 +257,8 @@ print('data_for_sdm.txt created successfully')
 This portion of code takes the filled global variable data_dict and creates a
 	csv file which will be used by the Species Distribution Model (SDM) as well
 	as allowing easier user viewing if further or seperate analysis is needed on 
-	the combined, cleaned datasets.
+	the combined, cleaned datasets. This code also cleans the Latitude and Longitude
+	inputs from the files, and cleans/organizes them into a uniform format.
 '''
 #Format of CSV is scientificName, year, month, latitude, longitude
 with open('data_for_sdm.csv','w', encoding='utf-8') as csv_file:
@@ -279,11 +319,16 @@ print('data_for_sdm.csv created successfully. This is useful for visualizing the
 This portion of code seperates each Species into their own files, containing all
 of the data for that species in the format scientificName, year, month, latitude, 
 longitude. When this code finishes running there will be a singular csv for each 
-and every species. This code has a threshold requirement of 20 total observations 
-for the species to be considered, and written. This portion also write individual
-files for each species for each month, containing all observations for that species
-for all years during that month. All written files will be contained within a folder
-named the species scientificName.
+and every species. This code has a threshold requirement of 5 total observations 
+for the species to be considered, have a folder created and a csv written. This 
+portion also write individual files for each species for each month, containing 
+all observations for that species for all years during that month, if the observations 
+for that month are above the threshold of 5. All written files will be contained 
+within a folder named the species scientificName.
+
+Update** This code now includes a filter, so that only species and/or observations from
+North America will be included in the output. This was implemented due to the bounding
+boxes in the Run_SDM.R script as to now cause errors for points out of bounds.
 
 
 '''
@@ -311,17 +356,24 @@ for i in range(len(species)):
 	filename = str(join_name )
 
 	
-	if len(filename)>3:
-		if not os.path.exists(filename) :
-			os.makedirs(filename)
-		file_output =os.path.join(filename , filename +'_all.csv')
+	if len(filename)>4:
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
-				observations_threshold+=1
-				for coord in data_dict[nameset][years][months]:
-					observations_threshold+=1
+				for coords in data_dict[nameset][years][months]:
+					coords[0]=coords[0].replace('°' ,'')
+					coords[-1]=coords[-1].replace('°' ,'')	
+					if len(coords[0]) >1 and coords[0][-1]=='.' :
+						coords[0]=coords[0][0:-1]
+					if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+						coords[-1]=coords[-1][0:-1]
+					if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+						if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+							observations_threshold+=1
 					if observations_threshold >= 5:
+						if not os.path.exists(filename) :
+							os.makedirs(filename)
+						file_output =os.path.join(filename , filename +'_all.csv')
 						with open(file_output,'w', encoding='utf-8') as csv_file:
 							csvwriter = csv.writer(csv_file, delimiter=',' )
 							csvwriter.writerow(['scientific_name','year','month','latitude','longitude'])
@@ -347,9 +399,16 @@ for i in range(len(species)):
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '01':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -367,15 +426,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																
+															
 		file_output =filename + '\\' + filename +'_feb.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '02':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -393,15 +459,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-															
+														
 		file_output =filename + '\\' + filename +'_mar.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '03':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -419,15 +492,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																
+															
 		file_output =filename + '\\' + filename +'_apr.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '04':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -445,15 +525,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																
+															
 		file_output =filename + '\\' + filename +'_may.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '05':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -471,15 +558,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																
+															
 		file_output =filename + '\\' + filename +'_jun.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '06':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -503,9 +597,16 @@ for i in range(len(species)):
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '07':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -529,9 +630,16 @@ for i in range(len(species)):
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '08':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -549,15 +657,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																
+															
 		file_output =filename + '\\' + filename +'_sep.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '09':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -581,9 +696,16 @@ for i in range(len(species)):
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '10':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -601,15 +723,22 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																	
+																
 		file_output =filename + '\\' + filename +'_nov.csv'
 		observations_threshold=0
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '11':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -633,9 +762,16 @@ for i in range(len(species)):
 		for years in data_dict[nameset]:
 			for months in data_dict[nameset][years]:
 				if months == '12':
-					observations_threshold+=1
-					for coord in data_dict[nameset][years][months]:
-						observations_threshold+=1
+					for coords in data_dict[nameset][years][months]:
+						coords[0]=coords[0].replace('°' ,'')
+						coords[-1]=coords[-1].replace('°' ,'')	
+						if len(coords[0]) >1 and coords[0][-1]=='.' :
+							coords[0]=coords[0][0:-1]
+						if len(coords[-1]) >1 and coords[-1][-1]=='.' :
+							coords[-1]=coords[-1][0:-1]
+						if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
+							if float(coords[-1])>= -165 and float(coords[-1]) <= -52:	
+								observations_threshold+=1
 						if observations_threshold >= 5:
 							with open(file_output,'w', encoding='utf-8') as csv_file:
 								csvwriter = csv.writer(csv_file, delimiter=',' )
@@ -653,6 +789,6 @@ for i in range(len(species)):
 												if len(coords[0]) >1 and ',' not in coords[0] and float(coords[0]) >= 15 and float(coords[0]) <= 75:
 													if float(coords[-1])>= -165 and float(coords[-1]) <= -52:						
 														csvwriter.writerow([nameset, year, month,coords[0], coords[-1]])
-																	
-													
+																
+												
 print('Individual species csv file creation complete.')

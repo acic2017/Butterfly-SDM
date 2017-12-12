@@ -1,0 +1,78 @@
+Hello!
+
+This is the readme for the iNaturalist updater. iNaturalist is a website that contains observation data
+regarding animals/plants/bugs/etc. This updater needs 2 files from the user:
+
+1: an input file
+  The file optionally contains the taxon id that is provided by iNaturalist, and it must have the scientific
+  species name. Example:
+
+  OK:
+    52773	Poanes zabulon
+  Also OK:
+  	Poanes zabulon
+  Not OK:
+    52773
+
+2: a config file
+ This is something that should be changed, but this was a simple solution to a more complex problem I didn't
+ want to deal with. All of the parameters are required to be at the beginning of the file. I don't think that
+ order of parameters matters (although I haven't tested it) but to be safe, leave it in the order it is given
+ in. The file must be called "config.txt" and be in the config file. These are the following parameters with
+ example arguments that could be inputted.
+
+2.1:
+
+ date1 10 1 2017
+
+ This value is the first date you would like to start searching for.
+ IT IS IN MONTH/DAY/YEAR Days don't really matter though, it is going to search the entire month regardless
+
+ 2.2:
+
+ date2 12 1 2017
+
+ This value is the second date you would like to search for. In this example the date range is October 2017
+ to December 2017. This is an optional parameter. If you exclude it the program will default to the current
+ day/month/year.
+
+ 2.3:
+
+ call_rate .01
+
+ iNaturalist doesn't like when you make a crap ton of calls really fast. To avoid this, the call_rate parameter
+ limits the amount of calls that will be made to their servers. This is in seconds, it is optional (I think) and
+ leaving it out won't limit the calls. I advise you not do this. In the example, .01 would be 1 call per 10 ms.
+ you could likely lower it to .005 or .001 if you wanted to increase the speed of calls. If you are just looking
+ up a small amount of species, the call rate doesn't really matter (lowering it isn't going to increase the speed
+ all that much, and raising it won't really matter either).
+
+2.4:
+
+ output_file ../data/out.csv
+
+ This is the location of the output file. It is required.
+
+ 2.5:
+
+ input_file ../data/test_input.csv
+
+ This is the location of the input file that was mentioned above in 1. It is also required.
+
+ 2.6:
+
+ taxon_id t
+
+ CURRENTLY THIS DOES NOT WORK. LEAVE AS 't' or 'T' and include the taxon ids in the input file.
+ This is the indicator telling the program if there are taxon ids in the input file. It is required, but if you don't
+ know what to do with this, you can leave it as false (which is 'f' or 'F').
+
+
+
+3: How do I run this?
+
+open a shell and run this command. The dependency is that you need python installed.
+
+python updater.py
+
+It is that easy.

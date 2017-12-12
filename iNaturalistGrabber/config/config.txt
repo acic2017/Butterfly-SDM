@@ -1,0 +1,6 @@
+date1 10 1 2017
+date2 12 1 2017
+call_rate .01
+output_file ../data/out2.csv
+input_file ../data/test_input.csv
+taxon_id t

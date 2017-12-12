@@ -9,6 +9,6 @@
 7. To load the data: `pg_dump -U localhost ebutterfly > dbexport.pgsql`
 8. AND : `sudo psql -h localhost -U postgres -d ebutterfly -f ebutterfly-acic.sql`
 
-#### After these steps, you can acess the data using to pgAdmin
+#### After these steps, you can acess the data using pgAdmin
 
 To extract the data as a CSV file run **eb_butterflies_to_CSV.py** on python.

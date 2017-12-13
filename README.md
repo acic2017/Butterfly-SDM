@@ -8,7 +8,7 @@ This application provides a full data pipeline for getting and cleaning iNatural
 ![input output](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/inputoutput.jpg?raw=true "Input to output")
 
 ## System Requirements:
-    Software: Python 3.6, R, Git, Anaconda(install as Admin), Bash on Ubuntu
+    Software: Python 3.6, R, Git, Anaconda(install as Admin), Bash on Ubuntu, pgAdmin 4 (for sql pull)
     R packages: dismo, sp, raster, maptools, rgdal, gtools
 
 [Install Ubuntu Bash on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/install-win10)

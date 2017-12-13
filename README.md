@@ -60,7 +60,7 @@ Final file output from Organize.py will create a file structure as follows:
         Jan   Feb   Mar  etc.... all 
             species_name_jan.csv (see image for example)
             
-           ![Organize Output File Structure] (https://github.com/acic2017/Butterfly-SDM/Images For ReadMe/organize output file structure.png)
+           ![Organize Output File Structure] (https://github.com/acic2017/Butterfly-SDM/blob/master/Images%20For%20ReadMe/organize%20output%20file%20structure.png)
 
 ![Species Distributions](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/species.png?raw=true "October, November, December, All")
 

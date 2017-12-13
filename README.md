@@ -1,11 +1,10 @@
-# iNaturalist SDM
+# SDM for iNaturalist and eButterfly Data
 
 ## Basic Overview
 
-This application provides a full data pipeline for getting and cleaning iNaturalist and ebutterfly butterfly data, and running this data through Jeff Oliver's species distribution models and algorithms, which creates rasters and image files that help scientists visualize how different butterfly species are distributed across the country, given the month of the year, as well as a stacked image to see the total distribution of butterflies in North America.
+This application provides a full data pipeline for getting and cleaning iNaturalist and ebutterfly data, and running this data through Jeff Oliver's species distribution models and algorithms, which creates rasters and image files that help scientists visualize how different butterfly species are distributed across the country, given the month of the year, as well as a stacked image to see the total distribution of butterflies in North America.
 
-# VIS TEAM ***********************************************************************************
-![input output](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/inputoutput.jpg?raw=true "Input to output")
+![input output](https://github.com/acic2017/Butterfly-SDM/blob/master/Images%20For%20ReadMe/dashboard.jpg?raw=true "Input to output")
 
 ## System Requirements:
     Software: Python 3.6, R, Git, Anaconda(install as Admin), Bash on Ubuntu, pgAdmin 4 (for sql pull)

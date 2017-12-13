@@ -56,11 +56,9 @@ Run organize.py with ```python organize.py``` from the command line. This script
 # Vis teams image display*******************************************************************
 
 Final file output from Organize.py will create a file structure as follows:
-    Species_Name(folder)
-        Jan   Feb   Mar  etc.... all 
-            species_name_jan.csv (see image for example)
+    Species_Name(folder)/Jan   Feb   Mar  etc.... all/species_name_jan.csv 
             
-![Organize.py Output Folder Structure](https://github.com/acic2017/Butterfly-SDM/blob/master/Images%20For%20ReadMe/organize%20output%20file%20structure.png?raw=true "Organize.py Output File Structure")
+![Organize.py Output Folder Structure](https://github.com/acic2017/Butterfly-SDM/blob/master/Images%20For%20ReadMe/organize%20output%20file%20structure.png "Organize.py Output File Structure")
 
 ![Species Distributions](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/species.png?raw=true "October, November, December, All")
 

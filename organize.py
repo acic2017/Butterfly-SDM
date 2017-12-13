@@ -182,11 +182,14 @@ def get_eButterfly(filename):
 						data_dict[row['latin_name']][row['year_created']][row['month_created']].append([row['latitude'],row['longitude']])
 			
 
-
-#Runs get_iNat function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
-print('Beginning cleaning of iNaturalist Data')
-get_iNat('observations.csv')
-print('Cleaning of iNaturalist Data Complete')
+'''
+Runs get_iNat function and organizes/cleans observations.csv file from the Gbif Datadump (iNaturalist)
+Currently the iNaturalist function is commented out for faster running. To include the full dataset,
+please remove the '#' from lines 190,191, and 192.
+'''
+#print('Beginning cleaning of iNaturalist Data')
+#get_iNat('observations.csv')
+#print('Cleaning of iNaturalist Data Complete')
 print('Beginning cleaning of eButterfly Data')
 #Runs get_eButterfly function and organizes/cleans eb_butterflies_new.csv file from the eButterfly Datadump.
 get_eButterfly('eb_butterflies_new.csv')

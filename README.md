@@ -15,7 +15,7 @@ This application provides a full data pipeline for getting and cleaning iNatural
 
 [Install R on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
 
-Install R Packages by typing the following into Bash:
+Install R Packages by typing the following commands into Bash and pressing 'enter' after each:
 1. R
 2. install.packages('raster')
 3. install packages('sp')
@@ -28,11 +28,14 @@ Install R Packages by typing the following into Bash:
 ## Getting started:
 
 1. Clone the required projects
- * Get Jeff Oliver's SDM with ```git clone https://github.com/jcoliver/ebutterfly-sdm.git```
- * Get this program with ```git clone https://github.com/acic2017/Butterfly-SDM.git```
+ * Get Jeff Oliver's SDM with the command ```git clone https://github.com/jcoliver/ebutterfly-sdm.git```
+ * Get this program with with the command ```git clone https://github.com/acic2017/Butterfly-SDM.git```
+ * Then change directories into the above with the command ```cd Butterfly-SDM```
 
 2. Get your data
+To Download iNaturalist data:
  * If downloading [GBIF Observations](http://www.inaturalist.org/observations/gbif-observations-dwca.zip), unzip the downloaded file, and move observations.csv into the directory with organize.py (warning: many input files will be generated here)
+To Download eButterfly data:
 * Download [eButterfly Data Dump](https://de.cyverse.org/dl/d/BA2D5507-1F85-4A75-8F11-5B537E44A2D9/ebutterfly-acic.sql), use the SQL to csv file, and move the csv (in this case eb_butterflies_new.csv) into the directory with organize.py 
 
 3. Organize your files
@@ -54,12 +57,6 @@ Run organize.py with ```python organize.py``` from the command line. This script
 ## Output:
 
 # Vis teams image display*******************************************************************
-
-Final file output from Organize.py will create a file structure as follows:
-    Species_Name(folder)/Jan   Feb   Mar  etc.... all/species_name_jan.csv 
-            
-![Organize.py Output Folder Structure](https://github.com/acic2017/Butterfly-SDM/blob/master/Images%20For%20ReadMe/organize%20output%20file%20structure.png "Organize.py Output File Structure")
-
 ![Species Distributions](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/species.png?raw=true "October, November, December, All")
 
 
@@ -69,6 +66,8 @@ Final file output from Organize.py will create a file structure as follows:
 #### Data integrity:
 
 The data_for_sdm.csv that is created contains ALL Lepidoptera observations with valid inputs from both databases, worldwide, regardless of number of observations. The final output is put through a series of filters to ensure only North American species and a minimum number of observations (13) is obtained. This was done to allow researchers the ability to access a clean, combined version of the observations, and be used on any number of unforeseen future analysis
+
+In order to remove or change these filters, for example, to include ALL observations not just those from North America or ones that are less that the 13 observations per species threshold, organize.py may be altered; see the file itself for more detailed instructions.
 
 #### Runtimes:
 

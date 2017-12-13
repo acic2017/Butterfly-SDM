@@ -29,7 +29,7 @@ Install R Packages by typing the following into Bash:
 
 1. Clone the required projects
  * Get Jeff Oliver's SDM with ```git clone https://github.com/jcoliver/ebutterfly-sdm.git```
- * Get this program with ```git clone https://github.com/acic/Butterfly-SDM.git```
+ * Get this program with ```git clone https://github.com/acic2017/Butterfly-SDM.git```
 
 2. Get your data
  * If downloading [GBIF Observations](http://www.inaturalist.org/observations/gbif-observations-dwca.zip), unzip the downloaded file, and move observations.csv into the directory with organize.py (warning: many input files will be generated here)

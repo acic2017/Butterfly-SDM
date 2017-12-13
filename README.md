@@ -49,7 +49,8 @@ To Download eButterfly data:
 Run organize.py with ```python organize.py``` from the command line. This script:
  * Cleans the observations.csv and eb_butterflies_new.csv data by removing extraneous and/or missing data ;
  * Creates a user-friendly file, data_for_sdm.csv, containing all observations, with data for Scientific Name, year, month, latitude, and longitude. A text copy is able to be created too, just in case it is preferred. This makes it easier for users to sift through the data of interest, to find any glaring issues;
- * Creates a csv for every species listed in data_for_sdm.csv, that is located in North America, and has a minimum of 13 observations, one for each month, and one for all months, to be used as input for the SDM, as the format [scientific_name_month.csv].
+ * Also creates a csv titled Species_list.csv which contains a list of all Lepidoptera species worldwide in the data_for_sdm.csv post cleaning, but prior to any filters.
+ * Creates a csv for every species listed in data_for_sdm.csv, that are located in North America, and have a minimum of 13 observations, one for each month, and one for all months, to be used as input for the SDM, as the format [scientific_name_month.csv].
 
 
 # JUPYPTER NOTEBOOK INFO

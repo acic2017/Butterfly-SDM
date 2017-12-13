@@ -17,10 +17,12 @@ This application provides a full data pipeline for getting and cleaning iNatural
 
 Install R Packages by typing the following commands into Bash and pressing 'enter' after each:
 1. R
-2. install.packages('raster')
+2. install.packages('rgdal')
 3. install packages('sp')
 4. install.packages('maptools')
 5. install.packages('dismo')
+6. install.packages('raster')
+7. install.packages('gtools')
     
 
 
@@ -57,7 +59,7 @@ Run organize.py with ```python organize.py``` from the command line. This script
 ## Output:
 
 # Vis teams image display*******************************************************************
-![Species Distributions](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/species.png?raw=true "October, November, December, All")
+![Species Distributions](https://github.com/acic2017/Butterfly-SDM/blob/master/gifs/Papilio_glaucus-CTA-1.gif?raw=true "January through December and All")
 
 
 

@@ -2,14 +2,14 @@
 
 ## Basic Overview
 
-This application provides a full data pipeline for getting and cleaning iNaturalist butterfly data and eButterfly data, and running this data through Jeff Oliver's species distribution models and algorithms, which creates rasters and image files that help scientists visualize how different butterfly species are distributed across the country, given the month of the year, as well as a stacked image to see the total distribution of butterflies in North America
+This application provides a full data pipeline for getting and cleaning iNaturalist and ebutterfly butterfly data, and running this data through Jeff Oliver's species distribution models and algorithms, which creates rasters and image files that help scientists visualize how different butterfly species are distributed across the country, given the month of the year, as well as a stacked image to see the total distribution of butterflies in North America.
 
 # VIS TEAM ***********************************************************************************
 ![input output](https://github.com/ckhoward/iNat-SDM/blob/master/imgs/inputoutput.jpg?raw=true "Input to output")
 
 ## System Requirements:
     Software: Python 3.6, R, Git, Anaconda(install as Admin), Bash on Ubuntu
-    R packages: dismo, sp, raster, maptools
+    R packages: dismo, sp, raster, maptools, rgdal, gtools
 
 [Install Ubuntu Bash on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/install-win10)
 
@@ -54,9 +54,14 @@ Run organize.py with ```python organize.py``` from the command line. This script
 
 # JUPYPTER NOTEBOOK INFO
 
-# VIS TEAM *********************************************************************************
+
+## Input:
+
+Apart from species map and raster files, the Jupyter Notebook uses user inputs to select a species by scientific name, algorithm to use, and prediction level of interest. The selected species will have its outputs provided as cells are executed.
 
 ## Output:
+
+The output shows the expected SDM along with 9 possible animations of the species' SDMs over all the months for each algorithm/prediction threshold combination.
 
 # Vis teams image display*******************************************************************
 ![Species Distributions](https://github.com/acic2017/Butterfly-SDM/blob/master/gifs/Papilio_glaucus-CTA-1.gif?raw=true "January through December and All")

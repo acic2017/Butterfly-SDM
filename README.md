@@ -81,8 +81,8 @@ In order to remove or change these filters, for example, to include ALL observat
 Approximate run time for organization.py to clean and organize/write needed files for the SDM : ~45minutes (data_for_sdm.csv is veiwable after ~5 minutes)
 
 # COMPUTATION TEAM***************************************************************************************************
-Approximate run time for SDM/R Script to fully run 5 Taxon ID's and recieve Raster Images: ~3minutes
-Estimated run time for SDM/R Script to fully run all 760-780 Taxon ID's and recieve Raster Images: ~6.5hours
+Approximate run time for SDM/R Script to fully run 5 species:  ????
+Estimated run time for SDM/R Script to fully run all species and all algorithms: ~90 hours
 
 
 #### Space requirement:

@@ -8,7 +8,7 @@ This application provides a full data pipeline for getting and cleaning iNatural
 
 ## System Requirements:
     Software: Python 3.6, R, Git, Anaconda(install as Admin), Bash on Ubuntu, pgAdmin 4 (for sql pull)
-    R packages: dismo, sp, raster, maptools, rgdal, gtools
+    R packages: dismo, sp, raster, maptools, rgdal, gtools, SSDM
 
 [Install Ubuntu Bash on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/install-win10)
 
@@ -22,6 +22,8 @@ Install R Packages by typing the following commands into Bash and pressing 'ente
 5. install.packages('dismo')
 6. install.packages('raster')
 7. install.packages('gtools')
+8. install.packages('SSDM')
+
     
 
 
@@ -40,9 +42,23 @@ To Download eButterfly data:
 * Download [eButterfly Data Dump](https://de.cyverse.org/dl/d/BA2D5507-1F85-4A75-8F11-5B537E44A2D9/ebutterfly-acic.sql), use the SQL to csv file, and move the csv (in this case eb_butterflies_new.csv) into the directory with organize.py 
 
 3. Organize your files
- * ?????
- * Where the organize.py, observations.csv, and eb_butterflies_new.csv are located will create an output file for each species of butterfly that is cleaned through the organize.py file and will have a large folder count (DO NOT PLACE ON DESKTOP)
+ ** Where the organize.py, observations.csv, and eb_butterflies_new.csv are located and ran will create output file for each species of butterfly that is cleaned through the organize.py file and will have a large folder count; be aware of that when cloning the above githubs, and make sure they're both located in a place that can handle a large directory tree. (DO NOT PLACE ON DESKTOP)
+ * Create and change directory into folder named "main". 
+ * Create directory named "sdms" and move files organize.py, observations.csv, and eb_butterflies_new.csv into it.
+ * Change directory into "sdms" and run python script organize.py from bash.
+ ```python organize.py``` or ```python3 organize.py``` 
+ * Return to your "main" folder and move Jeff Oliver's SDM cloned repo.
+ * Change directories into "Butterfly-SDM" and move all 14 bash scripts from "scripts" folder into "main" folder alongside "sdms". 
+ * Change directories into "stack_scripts" and move all 14 bash scripts into "main" folder, as in the previous step.
+ * Move the submiy.sh script into main also
+ * Move "main" folder into HPC with the following commands in you bash shell.
+ ```sftp username@filexfer.hpc.arizona.edu``` This will ask you for your login credentials.
+ ```put -r main``` to move main folder into your HPC directory.
+ To request more space on the hpc, follow the instructions in this documentation:
+ https://docs.hpc.arizona.edu/display/UAHPC/Using+xdisk
+ You'll need the max amount that they can provide.
 
+ Now your files are organized and you're ready to go!
 
 ## How to use:
 Run organize.py with ```python organize.py``` from the command line. This script:
@@ -52,7 +68,7 @@ Run organize.py with ```python organize.py``` from the command line. This script
  * Creates a csv for every species listed in data_for_sdm.csv, that are located in North America, and have a minimum of 13 observations, one for each month, and one for all months, to be used as input for the SDM, as the format [scientific_name_month.csv].
 
 
-# JUPYPTER NOTEBOOK INFO
+# JUPYTER NOTEBOOK INFO
 
 
 ## Input:
@@ -79,14 +95,15 @@ In order to remove or change these filters, for example, to include ALL observat
 
 Approximate run time for organization.py to clean and organize/write needed files for the SDM : ~45minutes (data_for_sdm.csv is veiwable after ~5 minutes)
 
-# COMPUTATION TEAM***************************************************************************************************
-Approximate run time for SDM/R Script to fully run 5 species:  ????
-Estimated run time for SDM/R Script to fully run all species and all algorithms: ~90 hours
+#### Large-scale HPC Running Instructions
+
+* Run the following command to enable bash scripts to create species distribution models.
+```sh submit.sh```
+```sh submit_stack.sh```
 
 
 #### Space requirement:
-
-# COMPUTATION TEAM/VIS TEAM****************************************************************************************
+About 2 Terabytes for final output.
 
 
 ## License

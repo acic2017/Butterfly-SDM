@@ -63,7 +63,6 @@ Apart from species map and raster files, the Jupyter Notebook uses user inputs t
 
 The output shows the expected SDM along with 9 possible animations of the species' SDMs over all the months for each algorithm/prediction threshold combination.
 
-# Vis teams image display*******************************************************************
 ![Species Distributions](https://github.com/acic2017/Butterfly-SDM/blob/master/gifs/Papilio_glaucus-CTA-1.gif?raw=true "January through December and All")
 
 
